@@ -1,11 +1,16 @@
 <img src="resources/proxinject.png" width="128" alt="logo">
 
 # proxinject
-[![Build](https://github.com/PragmaTwice/proxinject/actions/workflows/build.yml/badge.svg)](https://github.com/PragmaTwice/proxinject/actions/workflows/build.yml)
-[![Release](https://shields.io/github/v/release/PragmaTwice/proxinject?display_name=tag&include_prereleases)](https://github.com/PragmaTwice/proxinject/releases)
-[![WinGet](https://img.shields.io/badge/winget-proxinject-blue)](https://github.com/microsoft/winget-pkgs/tree/master/manifests/p/PragmaTwice/proxinject)
 
-*A socks5 proxy injection tool for **Windows**: just select some processes and make them proxy-able!*
+*A proxy injection tool for **Windows**: just select some processes and make them proxy-able!*
+
+> **Note**: This is a fork of [PragmaTwice/proxinject](https://github.com/PragmaTwice/proxinject) with additional features.
+
+## New Features in This Fork
+
+- **HTTP CONNECT Proxy Support**: In addition to SOCKS5, you can now use HTTP CONNECT proxies
+- **Proxy Authentication**: Support for username/password authentication for both SOCKS5 and HTTP proxies
+- New CLI options: `-t/--proxy-type`, `-U/--proxy-user`, `-W/--proxy-pass`
 
 ## Preview
 
@@ -18,52 +23,65 @@
 $ ./proxinjector-cli -h
 Usage: proxinjector-cli [options]
 
-A socks5 proxy injection tool for Windows: just select some processes and make them proxy-able!
-Please visit https://github.com/PragmaTwice/proxinject for more information.
+A proxy injection tool for Windows: just select some processes and make them proxy-able!
 
 Optional arguments:
--h --help                       shows help message and exits [default: false]
--v --version                    prints version information and exits [default: false]
--i --pid                        pid of a process to inject proxy (integer) [default: {}]
--n --name                       short filename of a process with wildcard matching to inject proxy (string, without directory and file extension, e.g. `python`, `py*`, `py??on`) [default: {}]
--P --path                       full filename of a process with wildcard matching to inject proxy (string, with directory and file extension, e.g. `C:/programs/python.exe`, `C:/programs/*.exe`) [default: {}]
--r --name-regexp                regular expression for short filename of a process to inject proxy (string, without directory and file extension, e.g. `python`, `py.*|exp.*`) [default: {}]
--R --path-regexp                regular expression for full filename of a process to inject proxy (string, with directory and file extension, e.g. `C:/programs/python.exe`, `C:/programs/(a|b).*\.exe`) [default: {}]
--e --exec                       command line started with an executable to create a new process and inject proxy (string, e.g. `python` or `C:\Program Files\a.exe --some-option`) [default: {}]
--l --enable-log                 enable logging for network connections [default: false]
--p --set-proxy                  set a proxy address for network connections (string, e.g. `127.0.0.1:1080`) [default: ""]
--w --new-console-window         create a new console window while a new console process is executed in `-e` [default: false]
--s --subprocess                 inject subprocesses created by these already injected processes [default: false]
+-h --help                       shows help message and exits
+-v --version                    prints version information and exits
+-i --pid                        pid of a process to inject proxy (integer)
+-n --name                       short filename of a process with wildcard matching to inject proxy
+-P --path                       full filename of a process with wildcard matching to inject proxy
+-r --name-regexp                regular expression for short filename of a process to inject proxy
+-R --path-regexp                regular expression for full filename of a process to inject proxy
+-e --exec                       command line started with an executable to create a new process and inject proxy
+-l --enable-log                 enable logging for network connections
+-p --set-proxy                  set a proxy address for network connections (e.g. `127.0.0.1:1080`)
+-t --proxy-type                 proxy type: socks5 (default) or http
+-U --proxy-user                 proxy username for authentication
+-W --proxy-pass                 proxy password for authentication
+-w --new-console-window         create a new console window while a new console process is executed in `-e`
+-s --subprocess                 inject subprocesses created by these already injected processes
+```
+
+### Examples
+
+```sh
+# Use SOCKS5 proxy (default)
+proxinjector-cli -n chrome -p 127.0.0.1:1080
+
+# Use HTTP CONNECT proxy
+proxinjector-cli -n chrome -p 127.0.0.1:8080 -t http
+
+# Use SOCKS5 proxy with authentication
+proxinjector-cli -n chrome -p 127.0.0.1:1080 -U myuser -W mypass
+
+# Use HTTP proxy with authentication
+proxinjector-cli -n chrome -p 127.0.0.1:8080 -t http -U myuser -W mypass
 ```
 
 ## How to Install
 
-Choose whichever method you like:
+Download the latest portable archive (`.zip`) or installer (`.exe`) from the [Releases Page](https://github.com/HorusGod007/proxinject/releases).
 
-- Download the latest portable archive (`.zip`) or installer (`.exe`) from the [Releases Page](https://github.com/PragmaTwice/proxinject/releases), OR
-- Type `winget install PragmaTwice.proxinject` in the terminal ([winget](https://github.com/microsoft/winget-cli) is required)
-
-Or build from source (not recommended for non-professionals):
+Or build from source:
 
 ```sh
-# make sure your develop environment is well configured in powershell
-git clone https://github.com/PragmaTwice/proxinject.git
+git clone https://github.com/HorusGod007/proxinject.git
 cd proxinject
-./build.ps1 -mode Release -arch x64 # build the project via CMake and msbuild
-# your built binaries are now in the `./release` directory, enjoy it now!
-makensis /DVERSION=$(git describe --tags) setup.nsi # (optional) genrate an installer via NSIS
+./build.ps1 -mode Release -arch x64
+# built binaries are in the `./release` directory
 ```
 
 ## Development Dependencies
 
-### environments:
+### Environments:
 
 - C++ compiler (with C++20 support, currently MSVC)
 - Windows SDK (with winsock2 support)
 - CMake 3
 
-### libraries: 
-(you do not need to download/install them manually)
+### Libraries:
+(automatically fetched during build)
 
 #### proxinjectee
 - minhook
@@ -80,3 +98,11 @@ makensis /DVERSION=$(git describe --tags) setup.nsi # (optional) genrate an inst
 - PragmaTwice/protopuf
 - p-ranav/argparse
 - gabime/spdlog
+
+## Credits
+
+This project is forked from [PragmaTwice/proxinject](https://github.com/PragmaTwice/proxinject). All credit for the original implementation goes to the original author.
+
+## License
+
+Apache-2.0 License - See [LICENSE](LICENSE) for details.
