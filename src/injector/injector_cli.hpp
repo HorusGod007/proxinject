@@ -21,6 +21,7 @@
 #include <spdlog/spdlog.h>
 
 using spdlog::info;
+using spdlog::error;
 
 struct injectee_session_cli : injectee_session {
   using injectee_session::injectee_session;

@@ -74,15 +74,15 @@ M create_message(T &&v) {
   M msg;
 
   msg["opcode"_f] = S.data;
-  msg.get<S>() = std::forward<T>(v);
+  msg.template get<S>() = std::forward<T>(v);
 
   return msg;
 }
 
 template <pp::basic_fixed_string S, typename M>
-M::template get_type_by_name<S>::base_type compare_message(const M &msg) {
+typename M::template get_type_by_name<S>::base_type compare_message(const M &msg) {
   if (msg["opcode"_f] == S.data) {
-    return msg.get_base<S>();
+    return msg.template get_base<S>();
   }
 
   return std::nullopt;

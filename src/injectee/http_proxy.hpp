@@ -83,7 +83,27 @@ inline std::string format_host_port(const sockaddr *addr) {
 }
 
 inline std::string format_host_port(const IpAddr &addr) {
-  auto [host, port] = to_asio(addr);
+  std::string host;
+  std::uint16_t port = *addr["port"_f];
+
+  if (auto v = addr["v4_addr"_f]) {
+    // Convert uint32 to dotted decimal
+    std::uint32_t ip = *v;
+    host = std::to_string((ip >> 24) & 0xFF) + "." +
+           std::to_string((ip >> 16) & 0xFF) + "." +
+           std::to_string((ip >> 8) & 0xFF) + "." +
+           std::to_string(ip & 0xFF);
+  } else if (auto v = addr["v6_addr"_f]) {
+    // Format IPv6 address
+    char buf[INET6_ADDRSTRLEN];
+    IN6_ADDR in6;
+    std::copy(v->begin(), v->end(), reinterpret_cast<unsigned char*>(&in6));
+    inet_ntop(AF_INET6, &in6, buf, sizeof(buf));
+    host = buf;
+  } else if (auto v = addr["domain"_f]) {
+    host = *v;
+  }
+
   return host + ":" + std::to_string(port);
 }
 
