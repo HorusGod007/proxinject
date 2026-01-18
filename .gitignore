@@ -2,7 +2,6 @@
 /.vs/
 /.vscode/
 /.idea/
-/.claude/
 /.github/
 /build*/
 /release*/
