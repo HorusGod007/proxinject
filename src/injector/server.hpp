@@ -98,6 +98,27 @@ struct injector_server {
 
   void disable_subprocess() { enable_subprocess(false); }
 
+  void set_proxy_type(std::uint32_t type) {
+    std::lock_guard guard(config_mutex);
+    config_["proxy_type"_f] = type;
+
+    broadcast_config();
+  }
+
+  void set_proxy_username(const std::string &username) {
+    std::lock_guard guard(config_mutex);
+    config_["username"_f] = username;
+
+    broadcast_config();
+  }
+
+  void set_proxy_password(const std::string &password) {
+    std::lock_guard guard(config_mutex);
+    config_["password"_f] = password;
+
+    broadcast_config();
+  }
+
   InjectorConfig get_config() {
     std::lock_guard guard(config_mutex);
     return config_;
