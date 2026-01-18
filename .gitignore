@@ -2,5 +2,26 @@
 /.vs/
 /.vscode/
 /.idea/
+/.claude/
+/.github/
 /build*/
 /release*/
+/tmp/
+
+# Temp build scripts
+*.log
+nul
+test*.c
+test*.cpp
+test*.bat
+*_build.bat
+build_*.bat
+do_build*.ps1
+install_*.ps1
+check_*.ps1
+*_cleanup.ps1
+find_*.ps1
+free_*.ps1
+move_*.ps1
+*.sh
+msvc_toolchain.cmake
