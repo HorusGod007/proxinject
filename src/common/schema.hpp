@@ -62,7 +62,8 @@ using InjecteeMessage =
 
 using InjectorConfig =
     pp::message<pp::message_field<"addr", 1, IpAddr>, pp::bool_field<"log", 2>,
-                pp::bool_field<"subprocess", 3>>;
+                pp::bool_field<"subprocess", 3>, pp::uint32_field<"proxy_type", 4>,
+                pp::string_field<"username", 5>, pp::string_field<"password", 6>>;
 
 using InjectorMessage =
     pp::message<pp::string_field<"opcode", 1>,

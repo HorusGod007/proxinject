@@ -104,6 +104,18 @@ auto create_parser() {
       .default_value(false)
       .implicit_value(true);
 
+  parser.add_argument("-t", "--proxy-type")
+      .help("proxy type: socks5 (default) or http")
+      .default_value(string{"socks5"});
+
+  parser.add_argument("-U", "--proxy-user")
+      .help("proxy username for authentication")
+      .default_value(string{});
+
+  parser.add_argument("-W", "--proxy-pass")
+      .help("proxy password for authentication")
+      .default_value(string{});
+
   return parser;
 }
 
@@ -161,6 +173,24 @@ int main(int argc, char *argv[]) {
       server.set_proxy(ip::address::from_string(addr), port);
       info("proxy address set to {}:{}", addr, port);
     }
+  }
+
+  if (auto proxy_type = parser.get<string>("-t"); proxy_type == "http") {
+    server.set_proxy_type(1);
+    info("proxy type set to http");
+  } else {
+    server.set_proxy_type(0);
+    info("proxy type set to socks5");
+  }
+
+  if (auto username = parser.get<string>("-U"); !username.empty()) {
+    server.set_proxy_username(username);
+    info("proxy username set");
+  }
+
+  if (auto password = parser.get<string>("-W"); !password.empty()) {
+    server.set_proxy_password(password);
+    info("proxy password set");
   }
 
   bool has_process = false;
