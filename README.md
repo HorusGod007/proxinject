@@ -10,7 +10,10 @@
 
 - **HTTP CONNECT Proxy Support**: In addition to SOCKS5, you can now use HTTP CONNECT proxies
 - **Proxy Authentication**: Support for username/password authentication for both SOCKS5 and HTTP proxies
-- New CLI options: `-t/--proxy-type`, `-U/--proxy-user`, `-W/--proxy-pass`
+- **Watch Mode**: Monitor for processes and auto-inject when they start (`--watch`)
+- **Hostname Support**: Use hostnames (not just IPs) for proxy addresses
+- **Static Linking**: No MinGW runtime DLL dependencies - works reliably when injected
+- New CLI options: `-t/--proxy-type`, `-U/--proxy-user`, `-W/--proxy-pass`, `--watch`
 
 ## Preview
 
@@ -41,6 +44,7 @@ Optional arguments:
 -W --proxy-pass                 proxy password for authentication
 -w --new-console-window         create a new console window while a new console process is executed in `-e`
 -s --subprocess                 inject subprocesses created by these already injected processes
+--watch                         watch mode: monitor for processes and inject when they start
 ```
 
 ### Examples
@@ -57,6 +61,15 @@ proxinjector-cli -n chrome -p 127.0.0.1:1080 -U myuser -W mypass
 
 # Use HTTP proxy with authentication
 proxinjector-cli -n chrome -p 127.0.0.1:8080 -t http -U myuser -W mypass
+
+# Use hostname instead of IP address
+proxinjector-cli -n chrome -p proxy.example.com:1080 -U myuser -W mypass
+
+# Watch mode: wait for process to start, then inject
+proxinjector-cli --watch myapp -p 127.0.0.1:1080 -l
+
+# Watch mode with wildcard pattern
+proxinjector-cli --watch "node*" -p proxy.example.com:8080 -t http -U user -W pass -l
 ```
 
 ## How to Install
@@ -76,9 +89,10 @@ cd proxinject
 
 ### Environments:
 
-- C++ compiler (with C++20 support, currently MSVC)
+- C++ compiler with C++20 support (MSVC or MinGW-w64 GCC 11+)
 - Windows SDK (with winsock2 support)
-- CMake 3
+- CMake 3.20+
+- For MinGW builds: MSYS2 with mingw-w64-x86_64-toolchain, ninja, cmake, pkg-config, cairo, freetype, fontconfig
 
 ### Libraries:
 (automatically fetched during build)
