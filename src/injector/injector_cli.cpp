@@ -279,6 +279,7 @@ int main(int argc, char *argv[]) {
 
   // Watch mode: continuously monitor for new processes
   if (!watch_pattern.empty()) {
+    server.set_watch_mode(true);
     info("watch mode: monitoring for processes matching '{}'", watch_pattern);
     info("press Ctrl+C to stop");
 

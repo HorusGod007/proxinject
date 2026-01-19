@@ -42,7 +42,7 @@ struct injectee_session_cli : injectee_session {
 
   void process_close() override {
     info("{}: closed", (int)pid_);
-    if (server_.clients.size() == 0) {
+    if (server_.clients.size() == 0 && !server_.watch_mode_) {
       info("all processes have been exited, exit");
 
       exit(0);

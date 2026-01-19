@@ -40,8 +40,10 @@ struct injector_server {
   std::mutex config_mutex;
 
   std::uint16_t port_ = -1;
+  bool watch_mode_ = false;
 
   void set_port(std::uint16_t port) { port_ = port; }
+  void set_watch_mode(bool enabled = true) { watch_mode_ = enabled; }
 
   bool inject(DWORD pid) {
     if (port_ == -1) {
