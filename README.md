@@ -99,6 +99,17 @@ cd proxinject
 - p-ranav/argparse
 - gabime/spdlog
 
+## Donate
+
+If this project is useful to you, consider supporting development:
+
+| Currency | Address |
+|----------|---------|
+| **USDT (TRC20)** | `TWPe2RnNbTLLgn1cfZhHqkzNb46tHxpsCD` |
+| **ETH / ERC-20 Tokens** | `0x1786f09980942725480d4ba67287366e0a90970a` |
+| **BTC** | `1GzK3GrASavA2d7dC7RKEH3aGf1pY1gjHu` |
+| **LTC** | `LeJJjy1PSbUTyNHuLi6QR276sij5C1MT8u` |
+
 ## Credits
 
 This project is forked from [PragmaTwice/proxinject](https://github.com/PragmaTwice/proxinject). All credit for the original implementation goes to the original author.
